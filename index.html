@@ -1,0 +1,918 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dohelps Company Limited</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,700;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #0e0e0e;
+    --charcoal: #1c1c1c;
+    --steel: #2e2e2e;
+    --white: #f5f2ee;
+    --cream: #ede9e3;
+    --orange: #e05c1a;
+    --orange-light: #f07030;
+    --mid: #888;
+    --border: #ddd8d0;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--white);
+    color: var(--black);
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 5%;
+    height: 70px;
+    background: rgba(245,242,238,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    transition: box-shadow 0.3s;
+  }
+
+  nav.scrolled { box-shadow: 0 4px 30px rgba(0,0,0,0.08); }
+
+  .nav-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.6rem;
+    letter-spacing: 0.08em;
+    color: var(--black);
+    text-decoration: none;
+  }
+
+  .nav-logo span { color: var(--orange); }
+
+  .nav-links { display: flex; gap: 36px; list-style: none; }
+
+  .nav-links a {
+    font-size: 0.82rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--black);
+    text-decoration: none;
+    position: relative;
+    transition: color 0.2s;
+  }
+
+  .nav-links a::after {
+    content: '';
+    position: absolute; bottom: -4px; left: 0;
+    width: 0; height: 2px;
+    background: var(--orange);
+    transition: width 0.3s;
+  }
+
+  .nav-links a:hover { color: var(--orange); }
+  .nav-links a:hover::after { width: 100%; }
+
+  .nav-cta {
+    background: var(--orange);
+    color: #fff !important;
+    padding: 9px 22px;
+    border-radius: 3px;
+    letter-spacing: 0.1em !important;
+    transition: background 0.2s !important;
+  }
+
+  .nav-cta:hover { background: var(--orange-light) !important; color: #fff !important; }
+  .nav-cta::after { display: none !important; }
+
+  /* ── HERO ── */
+  #hero {
+    min-height: 100vh;
+    background: var(--black);
+    display: flex;
+    align-items: flex-end;
+    padding: 0 5% 80px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-bg {
+    position: absolute; inset: 0;
+    background:
+      linear-gradient(135deg, rgba(224,92,26,0.12) 0%, transparent 50%),
+      repeating-linear-gradient(0deg, transparent, transparent 60px, rgba(255,255,255,0.015) 60px, rgba(255,255,255,0.015) 61px),
+      repeating-linear-gradient(90deg, transparent, transparent 60px, rgba(255,255,255,0.015) 60px, rgba(255,255,255,0.015) 61px);
+  }
+
+  .hero-accent {
+    position: absolute;
+    top: 0; right: 0;
+    width: 45%;
+    height: 100%;
+    background: linear-gradient(180deg, var(--orange) 0%, #8b2a00 100%);
+    clip-path: polygon(30% 0, 100% 0, 100% 100%, 0% 100%);
+    opacity: 0.07;
+  }
+
+  .hero-line {
+    position: absolute;
+    top: 50%; left: 5%;
+    width: 3px; height: 120px;
+    background: var(--orange);
+    transform: translateY(-50%);
+    animation: lineGrow 1.2s ease-out 0.4s both;
+  }
+
+  @keyframes lineGrow {
+    from { height: 0; opacity: 0; }
+    to { height: 120px; opacity: 1; }
+  }
+
+  .hero-content { position: relative; z-index: 2; max-width: 800px; padding-left: 30px; }
+
+  .hero-tag {
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--orange);
+    margin-bottom: 20px;
+    opacity: 0;
+    animation: fadeUp 0.8s ease 0.6s forwards;
+  }
+
+  .hero-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(3.5rem, 8vw, 7rem);
+    line-height: 0.92;
+    color: var(--white);
+    letter-spacing: 0.02em;
+    margin-bottom: 28px;
+    opacity: 0;
+    animation: fadeUp 0.8s ease 0.8s forwards;
+  }
+
+  .hero-title em { color: var(--orange); font-style: normal; }
+
+  .hero-sub {
+    font-size: 1.05rem;
+    font-weight: 300;
+    color: rgba(245,242,238,0.6);
+    line-height: 1.7;
+    max-width: 480px;
+    margin-bottom: 44px;
+    opacity: 0;
+    animation: fadeUp 0.8s ease 1s forwards;
+  }
+
+  .hero-btns {
+    display: flex; gap: 16px;
+    opacity: 0;
+    animation: fadeUp 0.8s ease 1.2s forwards;
+  }
+
+  .btn-primary {
+    background: var(--orange);
+    color: #fff;
+    padding: 14px 36px;
+    border-radius: 3px;
+    font-weight: 500;
+    font-size: 0.9rem;
+    letter-spacing: 0.06em;
+    text-decoration: none;
+    transition: background 0.2s, transform 0.2s;
+  }
+
+  .btn-primary:hover { background: var(--orange-light); transform: translateY(-2px); }
+
+  .btn-outline {
+    border: 1px solid rgba(245,242,238,0.3);
+    color: var(--white);
+    padding: 14px 36px;
+    border-radius: 3px;
+    font-weight: 400;
+    font-size: 0.9rem;
+    letter-spacing: 0.06em;
+    text-decoration: none;
+    transition: border-color 0.2s, color 0.2s;
+  }
+
+  .btn-outline:hover { border-color: var(--orange); color: var(--orange); }
+
+  .hero-stats {
+    position: absolute; bottom: 80px; right: 5%;
+    display: flex; gap: 50px;
+    opacity: 0;
+    animation: fadeUp 0.8s ease 1.4s forwards;
+    z-index: 2;
+  }
+
+  .stat-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2.8rem;
+    color: var(--white);
+    line-height: 1;
+  }
+
+  .stat-num span { color: var(--orange); }
+  .stat-label { font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(245,242,238,0.45); margin-top: 4px; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── SECTION BASE ── */
+  section { padding: 100px 5%; }
+
+  .section-tag {
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--orange);
+    margin-bottom: 14px;
+    display: flex; align-items: center; gap: 12px;
+  }
+
+  .section-tag::before {
+    content: '';
+    display: inline-block;
+    width: 28px; height: 2px;
+    background: var(--orange);
+    flex-shrink: 0;
+  }
+
+  .section-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2.4rem, 5vw, 3.8rem);
+    letter-spacing: 0.03em;
+    line-height: 1;
+    color: var(--black);
+    margin-bottom: 20px;
+  }
+
+  /* ── ABOUT ── */
+  #about { background: var(--cream); }
+
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+    margin-top: 60px;
+  }
+
+  .about-visual {
+    position: relative;
+    height: 480px;
+  }
+
+  .about-img-main {
+    position: absolute;
+    inset: 0;
+    background: var(--steel);
+    border-radius: 4px;
+    overflow: hidden;
+    display: flex; align-items: center; justify-content: center;
+  }
+
+  /* Architectural SVG illustration */
+  .about-img-main svg { width: 100%; height: 100%; }
+
+  .about-badge {
+    position: absolute;
+    bottom: -20px; right: -20px;
+    background: var(--orange);
+    color: #fff;
+    width: 130px; height: 130px;
+    border-radius: 50%;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    box-shadow: 0 12px 40px rgba(224,92,26,0.4);
+  }
+
+  .about-badge strong { font-family: 'Bebas Neue', sans-serif; font-size: 2.2rem; line-height: 1; }
+  .about-badge span { font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase; opacity: 0.85; text-align: center; margin-top: 2px; }
+
+  .about-text p {
+    font-size: 1rem;
+    font-weight: 300;
+    line-height: 1.85;
+    color: #444;
+    margin-bottom: 20px;
+  }
+
+  .about-pillars {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 16px; margin-top: 36px;
+  }
+
+  .pillar {
+    padding: 20px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    background: var(--white);
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+
+  .pillar:hover { border-color: var(--orange); box-shadow: 0 4px 20px rgba(224,92,26,0.08); }
+  .pillar-icon { font-size: 1.5rem; margin-bottom: 8px; }
+  .pillar h4 { font-size: 0.85rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 4px; }
+  .pillar p { font-size: 0.8rem; color: var(--mid); line-height: 1.5; }
+
+  /* ── SERVICES ── */
+  #services { background: var(--white); }
+
+  .services-intro {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 40px;
+    margin-bottom: 60px;
+  }
+
+  .services-intro-text { max-width: 500px; }
+  .services-intro-text p { font-size: 1rem; font-weight: 300; color: #555; line-height: 1.75; margin-top: 16px; }
+
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    overflow: hidden;
+  }
+
+  .service-card {
+    background: var(--white);
+    padding: 40px 32px;
+    position: relative;
+    transition: background 0.3s;
+    cursor: default;
+  }
+
+  .service-card:hover { background: var(--black); }
+  .service-card:hover .service-num,
+  .service-card:hover .service-title,
+  .service-card:hover .service-desc { color: var(--white); }
+  .service-card:hover .service-icon { background: var(--orange); color: #fff; }
+  .service-card:hover .service-arrow { color: var(--orange); }
+
+  .service-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 0.85rem;
+    letter-spacing: 0.2em;
+    color: var(--orange);
+    margin-bottom: 24px;
+  }
+
+  .service-icon {
+    width: 52px; height: 52px;
+    background: var(--cream);
+    border-radius: 4px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    transition: background 0.3s, color 0.3s;
+  }
+
+  .service-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.4rem;
+    letter-spacing: 0.05em;
+    color: var(--black);
+    margin-bottom: 12px;
+    transition: color 0.3s;
+  }
+
+  .service-desc {
+    font-size: 0.85rem;
+    font-weight: 300;
+    color: #666;
+    line-height: 1.7;
+    transition: color 0.3s;
+  }
+
+  .service-arrow {
+    position: absolute; bottom: 32px; right: 32px;
+    font-size: 1.4rem;
+    color: var(--border);
+    transition: color 0.3s;
+  }
+
+  /* ── CONTACT ── */
+  #contact { background: var(--black); }
+  #contact .section-title { color: var(--white); }
+
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.4fr;
+    gap: 80px;
+    margin-top: 60px;
+    align-items: start;
+  }
+
+  .contact-info h3 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.8rem;
+    color: var(--white);
+    letter-spacing: 0.04em;
+    margin-bottom: 16px;
+  }
+
+  .contact-info p { font-size: 0.92rem; font-weight: 300; color: rgba(245,242,238,0.5); line-height: 1.8; margin-bottom: 36px; }
+
+  .contact-details { display: flex; flex-direction: column; gap: 20px; }
+
+  .contact-item { display: flex; gap: 16px; align-items: flex-start; }
+
+  .contact-item-icon {
+    width: 42px; height: 42px; flex-shrink: 0;
+    background: rgba(224,92,26,0.15);
+    border: 1px solid rgba(224,92,26,0.3);
+    border-radius: 4px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1rem;
+  }
+
+  .contact-item-text label { font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--orange); display: block; margin-bottom: 2px; }
+  .contact-item-text span { font-size: 0.9rem; color: rgba(245,242,238,0.7); }
+
+  .contact-form {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 6px;
+    padding: 48px 44px;
+  }
+
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+  .form-group { margin-bottom: 20px; }
+
+  .form-group label {
+    display: block;
+    font-size: 0.72rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: rgba(245,242,238,0.45);
+    margin-bottom: 8px;
+  }
+
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    width: 100%;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 3px;
+    padding: 13px 16px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    color: var(--white);
+    outline: none;
+    transition: border-color 0.2s, background 0.2s;
+  }
+
+  .form-group input::placeholder,
+  .form-group textarea::placeholder { color: rgba(245,242,238,0.2); }
+
+  .form-group select option { background: #1c1c1c; color: var(--white); }
+
+  .form-group input:focus,
+  .form-group select:focus,
+  .form-group textarea:focus {
+    border-color: var(--orange);
+    background: rgba(224,92,26,0.06);
+  }
+
+  .form-group textarea { resize: vertical; min-height: 110px; }
+
+  .form-submit {
+    width: 100%;
+    background: var(--orange);
+    color: #fff;
+    border: none;
+    padding: 15px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.2s;
+    margin-top: 8px;
+  }
+
+  .form-submit:hover { background: var(--orange-light); transform: translateY(-1px); }
+
+  .form-success {
+    display: none;
+    text-align: center;
+    padding: 20px;
+    color: #4caf50;
+    font-size: 0.95rem;
+    animation: fadeUp 0.4s ease;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    background: #080808;
+    border-top: 1px solid rgba(255,255,255,0.06);
+    padding: 36px 5%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+
+  .footer-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.4rem;
+    letter-spacing: 0.08em;
+    color: rgba(245,242,238,0.6);
+  }
+
+  .footer-logo span { color: var(--orange); }
+  .footer-copy { font-size: 0.78rem; color: rgba(245,242,238,0.25); letter-spacing: 0.05em; }
+
+  .footer-links { display: flex; gap: 24px; }
+  .footer-links a { font-size: 0.78rem; color: rgba(245,242,238,0.35); text-decoration: none; letter-spacing: 0.05em; transition: color 0.2s; }
+  .footer-links a:hover { color: var(--orange); }
+
+  /* ── SCROLL REVEAL ── */
+  .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.7s ease, transform 0.7s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    .about-grid, .contact-grid { grid-template-columns: 1fr; }
+    .about-visual { height: 300px; margin-bottom: 20px; }
+    .services-grid { grid-template-columns: 1fr; }
+    .services-intro { flex-direction: column; align-items: flex-start; }
+    .form-row { grid-template-columns: 1fr; }
+    .hero-stats { position: relative; bottom: auto; right: auto; margin-top: 40px; padding-left: 30px; }
+    #hero { flex-direction: column; justify-content: flex-end; padding-bottom: 60px; }
+    .nav-links { display: none; }
+    .contact-form { padding: 32px 24px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="navbar">
+  <a class="nav-logo" href="#hero">DO<span>HELPS</span></a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#contact">Contact</a></li>
+    <li><a href="#contact" class="nav-cta">Get a Quote</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-accent"></div>
+  <div class="hero-line"></div>
+  <div class="hero-content">
+    <div class="hero-tag">Building Ghana's Future</div>
+    <h1 class="hero-title">WE BUILD<br>WHAT <em>LASTS</em></h1>
+    <p class="hero-sub">Dohelps Company Limited delivers world-class construction and engineering solutions — from foundations to finishing, with precision and integrity.</p>
+    <div class="hero-btns">
+      <a href="#services" class="btn-primary">Our Services</a>
+      <a href="#contact" class="btn-outline">Get in Touch</a>
+    </div>
+  </div>
+  <div class="hero-stats">
+    <div>
+      <div class="stat-num">15<span>+</span></div>
+      <div class="stat-label">Years Experience</div>
+    </div>
+    <div>
+      <div class="stat-num">200<span>+</span></div>
+      <div class="stat-label">Projects Done</div>
+    </div>
+    <div>
+      <div class="stat-num">98<span>%</span></div>
+      <div class="stat-label">Client Satisfaction</div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="reveal">
+    <div class="section-tag">Who We Are</div>
+    <h2 class="section-title">BUILT ON TRUST,<br>DRIVEN BY EXCELLENCE</h2>
+  </div>
+  <div class="about-grid">
+    <div class="about-visual reveal">
+      <div class="about-img-main">
+        <!-- Construction illustration SVG -->
+        <svg viewBox="0 0 500 480" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect width="500" height="480" fill="#1c1c1c"/>
+          <!-- Sky gradient -->
+          <rect width="500" height="280" fill="url(#sky)"/>
+          <!-- Ground -->
+          <rect y="320" width="500" height="160" fill="#151515"/>
+          <!-- Building 1 (main tall) -->
+          <rect x="160" y="60" width="100" height="260" fill="#2a2a2a"/>
+          <rect x="160" y="60" width="100" height="8" fill="#e05c1a"/>
+          <!-- Windows grid B1 -->
+          <g fill="#4a6080" opacity="0.7">
+            <rect x="170" y="75" width="18" height="24" rx="1"/>
+            <rect x="196" y="75" width="18" height="24" rx="1"/>
+            <rect x="222" y="75" width="18" height="24" rx="1" fill="#e08040" opacity="0.9"/>
+            <rect x="170" y="110" width="18" height="24" rx="1"/>
+            <rect x="196" y="110" width="18" height="24" rx="1"/>
+            <rect x="222" y="110" width="18" height="24" rx="1"/>
+            <rect x="170" y="145" width="18" height="24" rx="1" fill="#e08040" opacity="0.9"/>
+            <rect x="196" y="145" width="18" height="24" rx="1"/>
+            <rect x="222" y="145" width="18" height="24" rx="1"/>
+            <rect x="170" y="180" width="18" height="24" rx="1"/>
+            <rect x="196" y="180" width="18" height="24" rx="1" fill="#e08040" opacity="0.9"/>
+            <rect x="222" y="180" width="18" height="24" rx="1"/>
+            <rect x="170" y="215" width="18" height="24" rx="1"/>
+            <rect x="196" y="215" width="18" height="24" rx="1"/>
+            <rect x="222" y="215" width="18" height="24" rx="1"/>
+          </g>
+          <!-- Building 2 (shorter left) -->
+          <rect x="60" y="130" width="80" height="190" fill="#252525"/>
+          <rect x="60" y="130" width="80" height="6" fill="#666"/>
+          <g fill="#3a5060" opacity="0.6">
+            <rect x="70" y="142" width="14" height="18" rx="1"/>
+            <rect x="90" y="142" width="14" height="18" rx="1"/>
+            <rect x="110" y="142" width="14" height="18" rx="1"/>
+            <rect x="70" y="170" width="14" height="18" rx="1" fill="#e08040" opacity="0.7"/>
+            <rect x="90" y="170" width="14" height="18" rx="1"/>
+            <rect x="110" y="170" width="14" height="18" rx="1"/>
+            <rect x="70" y="198" width="14" height="18" rx="1"/>
+            <rect x="90" y="198" width="14" height="18" rx="1"/>
+            <rect x="110" y="198" width="14" height="18" rx="1"/>
+            <rect x="70" y="226" width="14" height="18" rx="1" fill="#e08040" opacity="0.7"/>
+            <rect x="90" y="226" width="14" height="18" rx="1"/>
+            <rect x="110" y="226" width="14" height="18" rx="1"/>
+          </g>
+          <!-- Building 3 (right) -->
+          <rect x="280" y="90" width="90" height="230" fill="#232323"/>
+          <rect x="280" y="90" width="90" height="7" fill="#e05c1a" opacity="0.8"/>
+          <g fill="#3a5570" opacity="0.65">
+            <rect x="290" y="103" width="16" height="20" rx="1"/>
+            <rect x="312" y="103" width="16" height="20" rx="1"/>
+            <rect x="334" y="103" width="16" height="20" rx="1" fill="#e08040" opacity="0.8"/>
+            <rect x="290" y="133" width="16" height="20" rx="1"/>
+            <rect x="312" y="133" width="16" height="20" rx="1"/>
+            <rect x="334" y="133" width="16" height="20" rx="1"/>
+            <rect x="290" y="163" width="16" height="20" rx="1" fill="#e08040" opacity="0.8"/>
+            <rect x="312" y="163" width="16" height="20" rx="1"/>
+            <rect x="334" y="163" width="16" height="20" rx="1"/>
+            <rect x="290" y="193" width="16" height="20" rx="1"/>
+            <rect x="312" y="193" width="16" height="20" rx="1"/>
+            <rect x="334" y="193" width="16" height="20" rx="1" fill="#e08040" opacity="0.8"/>
+            <rect x="290" y="223" width="16" height="20" rx="1"/>
+            <rect x="312" y="223" width="16" height="20" rx="1"/>
+            <rect x="334" y="223" width="16" height="20" rx="1"/>
+          </g>
+          <!-- Crane -->
+          <rect x="380" y="40" width="6" height="280" fill="#444"/>
+          <rect x="340" y="40" width="90" height="6" fill="#555"/>
+          <rect x="340" y="40" width="6" height="40" fill="#555"/>
+          <line x1="386" y1="46" x2="346" y2="80" stroke="#666" stroke-width="1.5"/>
+          <!-- Ground details -->
+          <rect x="0" y="318" width="500" height="4" fill="#e05c1a" opacity="0.5"/>
+          <rect x="50" y="322" width="400" height="40" fill="#1a1a1a"/>
+          <!-- Road markings -->
+          <rect x="120" y="350" width="40" height="4" fill="#333" rx="2"/>
+          <rect x="200" y="350" width="40" height="4" fill="#333" rx="2"/>
+          <rect x="280" y="350" width="40" height="4" fill="#333" rx="2"/>
+          <!-- Logo watermark -->
+          <text x="250" y="460" font-family="sans-serif" font-size="11" fill="#333" text-anchor="middle" letter-spacing="3">DOHELPS COMPANY LIMITED</text>
+          <defs>
+            <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#0e1a2a"/>
+              <stop offset="100%" stop-color="#1c2a3a"/>
+            </linearGradient>
+          </defs>
+        </svg>
+      </div>
+      <div class="about-badge">
+        <strong>15+</strong>
+        <span>Years of Excellence</span>
+      </div>
+    </div>
+    <div class="about-text reveal">
+      <div class="section-tag">Our Story</div>
+      <h2 class="section-title">WHO WE ARE</h2>
+      <p>Dohelps Company Limited is a fully registered construction and engineering firm committed to delivering high-quality infrastructure that stands the test of time. From residential buildings to large-scale commercial projects, we bring expertise, discipline, and craftsmanship to every site.</p>
+      <p>Founded with a vision to transform Ghana's built environment, we operate with the highest professional standards, combining modern engineering techniques with deep local knowledge.</p>
+      <div class="about-pillars">
+        <div class="pillar">
+          <div class="pillar-icon">🏗️</div>
+          <h4>Structural Integrity</h4>
+          <p>Every project is engineered to last with rigorous quality control.</p>
+        </div>
+        <div class="pillar">
+          <div class="pillar-icon">📐</div>
+          <h4>Precision Design</h4>
+          <p>Detailed planning and design before a single brick is laid.</p>
+        </div>
+        <div class="pillar">
+          <div class="pillar-icon">🤝</div>
+          <h4>Client First</h4>
+          <p>Transparent communication and on-time delivery, always.</p>
+        </div>
+        <div class="pillar">
+          <div class="pillar-icon">✅</div>
+          <h4>Certified & Compliant</h4>
+          <p>Fully licensed and compliant with Ghana's building codes.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="services-intro reveal">
+    <div class="services-intro-text">
+      <div class="section-tag">What We Do</div>
+      <h2 class="section-title">OUR SERVICES</h2>
+      <p>From ground-breaking to ribbon-cutting, Dohelps delivers comprehensive construction and engineering solutions tailored to your vision and budget.</p>
+    </div>
+  </div>
+  <div class="services-grid reveal">
+    <div class="service-card">
+      <div class="service-num">01</div>
+      <div class="service-icon">🏢</div>
+      <h3 class="service-title">Building Construction</h3>
+      <p class="service-desc">Residential, commercial, and institutional buildings constructed to the highest standards — from foundations to roofing.</p>
+      <div class="service-arrow">→</div>
+    </div>
+    <div class="service-card">
+      <div class="service-num">02</div>
+      <div class="service-icon">🌉</div>
+      <h3 class="service-title">Civil Engineering</h3>
+      <p class="service-desc">Roads, bridges, drainage systems, and infrastructure projects designed and executed with engineering precision.</p>
+      <div class="service-arrow">→</div>
+    </div>
+    <div class="service-card">
+      <div class="service-num">03</div>
+      <div class="service-icon">📋</div>
+      <h3 class="service-title">Project Management</h3>
+      <p class="service-desc">End-to-end project management ensuring your construction is on time, within budget, and to specification.</p>
+      <div class="service-arrow">→</div>
+    </div>
+    <div class="service-card">
+      <div class="service-num">04</div>
+      <div class="service-icon">🔧</div>
+      <h3 class="service-title">Renovation & Remodelling</h3>
+      <p class="service-desc">Breathe new life into existing structures with our expert renovation and remodelling services.</p>
+      <div class="service-arrow">→</div>
+    </div>
+    <div class="service-card">
+      <div class="service-num">05</div>
+      <div class="service-icon">📐</div>
+      <h3 class="service-title">Structural Design</h3>
+      <p class="service-desc">Detailed structural engineering drawings, analysis, and design consultancy for any scale of project.</p>
+      <div class="service-arrow">→</div>
+    </div>
+    <div class="service-card">
+      <div class="service-num">06</div>
+      <div class="service-icon">🏗️</div>
+      <h3 class="service-title">Site Supervision</h3>
+      <p class="service-desc">Qualified site engineers and supervisors ensuring every phase of construction meets our quality benchmarks.</p>
+      <div class="service-arrow">→</div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="reveal">
+    <div class="section-tag" style="color:var(--orange)">Reach Us</div>
+    <h2 class="section-title">LET'S BUILD<br>TOGETHER</h2>
+  </div>
+  <div class="contact-grid">
+    <div class="contact-info reveal">
+      <h3>Start Your Project Today</h3>
+      <p>Whether you have a detailed brief or just an idea, our team is ready to listen, plan, and build. Reach out — we respond within 24 hours.</p>
+      <div class="contact-details">
+        <div class="contact-item">
+          <div class="contact-item-icon">📍</div>
+          <div class="contact-item-text">
+            <label>Location</label>
+            <span>Kumasi, Ashanti Region, Ghana</span>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-item-icon">📞</div>
+          <div class="contact-item-text">
+            <label>Phone</label>
+            <span>+233 (0) 000 000 000</span>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-item-icon">✉️</div>
+          <div class="contact-item-text">
+            <label>Email</label>
+            <span>info@dohelps.com</span>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-item-icon">🕐</div>
+          <div class="contact-item-text">
+            <label>Office Hours</label>
+            <span>Mon – Fri, 8:00am – 5:00pm</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="contact-form reveal">
+      <div class="form-row">
+        <div class="form-group">
+          <label>First Name</label>
+          <input type="text" placeholder="Kwame">
+        </div>
+        <div class="form-group">
+          <label>Last Name</label>
+          <input type="text" placeholder="Mensah">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Email Address</label>
+        <input type="email" placeholder="kwame@email.com">
+      </div>
+      <div class="form-group">
+        <label>Phone Number</label>
+        <input type="tel" placeholder="+233 ...">
+      </div>
+      <div class="form-group">
+        <label>Service Interested In</label>
+        <select>
+          <option value="">Select a service...</option>
+          <option>Building Construction</option>
+          <option>Civil Engineering</option>
+          <option>Project Management</option>
+          <option>Renovation & Remodelling</option>
+          <option>Structural Design</option>
+          <option>Site Supervision</option>
+          <option>Other</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Project Details</label>
+        <textarea placeholder="Tell us about your project — location, scope, timeline..."></textarea>
+      </div>
+      <button class="form-submit" onclick="handleSubmit(event)">Send Enquiry →</button>
+      <div class="form-success" id="formSuccess">✅ Thank you! We'll be in touch within 24 hours.</div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">DO<span>HELPS</span> CO. LTD</div>
+  <div class="footer-copy">© 2025 Dohelps Company Limited. All rights reserved.</div>
+  <div class="footer-links">
+    <a href="#about">About</a>
+    <a href="#services">Services</a>
+    <a href="#contact">Contact</a>
+  </div>
+</footer>
+
+<script>
+  // Navbar scroll effect
+  window.addEventListener('scroll', () => {
+    document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 30);
+  });
+
+  // Scroll reveal
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  // Form submit
+  function handleSubmit(e) {
+    e.preventDefault();
+    const btn = e.target;
+    btn.textContent = 'Sending...';
+    btn.disabled = true;
+    setTimeout(() => {
+      btn.style.display = 'none';
+      document.getElementById('formSuccess').style.display = 'block';
+    }, 1200);
+  }
+</script>
+</body>
+</html>
